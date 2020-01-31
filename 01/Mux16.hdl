@@ -15,4 +15,11 @@ CHIP Mux16 {
 
     PARTS:
     // Put your code here:
+    Not(in = sel, out = ns);
+
+    And16(a = a[16], b[16] = ns, out[16] = o1);
+
+    And16(a[16] = b[16], b[16] = sel, out[16] = o2);
+
+    Or(a[16] = o1, b[16] = o2, out[16] = out);
 }
