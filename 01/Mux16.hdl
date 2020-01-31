@@ -17,9 +17,67 @@ CHIP Mux16 {
     // Put your code here:
     Not(in = sel, out = ns);
 
-    And16(a = a[16], b[16] = ns, out[16] = o1);
+    And(a = a[0], b = ns, out = o1);
+    And(a = b[0], b = sel, out = o2);
+    Or(a = o1, b = o2, out = out[0]);
 
-    And16(a[16] = b[16], b[16] = sel, out[16] = o2);
+    And(a = a[1], b = ns, out = o3);
+    And(a = b[1], b = sel, out = o4);
+    Or(a = o3, b = o4, out = out[1]);
 
-    Or(a[16] = o1, b[16] = o2, out[16] = out);
+    And(a = a[2], b = ns, out = o5);
+    And(a = b[2], b = sel, out = o6);
+    Or(a = o5, b = o6, out = out[2]);
+
+    And(a = a[3], b = ns, out = o7);
+    And(a = b[3], b = sel, out = o8);
+    Or(a = o7, b = o8, out = out[3]);
+
+    And(a = a[4], b = ns, out = o9);
+    And(a = b[4], b = sel, out = o10);
+    Or(a = o9, b = o10, out = out[4]);
+
+    And(a = a[5], b = ns, out = o11);
+    And(a = b[5], b = sel, out = o12);
+    Or(a = o11, b = o12, out = out[5]);
+
+    And(a = a[6], b = ns, out = o13);
+    And(a = b[6], b = sel, out = o14);
+    Or(a = o13, b = o14, out = out[6]);
+
+    And(a = a[7], b = ns, out = o15);
+    And(a = b[7], b = sel, out = o16);
+    Or(a = o15, b = o16, out = out[7]);
+
+    And(a = a[8], b = ns, out = o17);
+    And(a = b[8], b = sel, out = o18);
+    Or(a = o17, b = o18, out = out[8]);
+
+    And(a = a[9], b = ns, out = o19);
+    And(a = b[9], b = sel, out = o20);
+    Or(a = o19, b = o20, out = out[9]); 
+
+    And(a = a[10], b = ns, out = o21);
+    And(a = b[10], b = sel, out = o22);
+    Or(a = o21, b = o22, out = out[10]);   
+
+    And(a = a[11], b = ns, out = o23);
+    And(a = b[11], b = sel, out = o24);
+    Or(a = o23, b = o24, out = out[11]);
+
+    And(a = a[12], b = ns, out = o25);
+    And(a = b[12], b = sel, out = o26);
+    Or(a = o25, b = o26, out = out[12]);
+
+    And(a = a[13], b = ns, out = o27);
+    And(a = b[13], b = sel, out = o28);
+    Or(a = o27, b = o28, out = out[13]);
+
+    And(a = a[14], b = ns, out = o29);
+    And(a = b[14], b = sel, out = o30);
+    Or(a = o29, b = o30, out = out[14]);
+
+    And(a = a[15], b = ns, out = o31);
+    And(a = b[15], b = sel, out = o32);
+    Or(a = o31, b = o32, out = out[15]);
 }
