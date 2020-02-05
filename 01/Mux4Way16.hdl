@@ -21,12 +21,8 @@ CHIP Mux4Way16 {
     Not(in = sel[1], out = ns2);
 
     Mux16(a = a, b = b, sel = sel[0], out = out1);
-    //Mux16(a = a, b = b, sel = sel[0], out = out2);
 
-    Mux16(a = c, b = d, sel = sel[0], out = out3);
-    //Mux16(a = c, b = d, sel = sel[1], out = out4);
+    Mux16(a = c, b = d, sel = sel[0], out = out2);
 
-    Mux16(a = out1, b = out3, sel = sel[1], out = out);
-    //Nand(a = sel[0], b = sel[1], out = out2/out3);
-    //And(a = sel[0], b = sel[1], out = out1/out3);
+    Mux16(a = out1, b = out2, sel = sel[1], out = out);
 }
