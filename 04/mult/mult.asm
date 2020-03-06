@@ -9,18 +9,25 @@
 // Put your code here.
 @i
 M = 1	//i = 1
-@num
-M = R0	//num = initial R0 value
-ADD R2, R0, num
+@R2
+D = 0	//Value of R2 is 0
+
 (LOOP)
 @i
-D = M
-D = D - R1
+D = M 	//D = i
+@R1
+D = D - A	//D = i, A = @R1; D = i - @R1
 @END
-D; JGT	//If (i - R1) > 0 goto END
-R2 = R1 + num
+D; JGT	//If (i - @R1) > 0 goto END
+@R0
+A = M		//A = @R0
+@R2
+D = A + D 	//@R2 = R0 + R2
 @i
-M = M + 1 //i = i + 1
+M = M + 1	//i = i + 1
 @LOOP
+0; JMP	//Goto LOOP
+
 (END)
-0; JMP
+@END
+0; JMP	//Inf. Loop
