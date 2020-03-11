@@ -22,7 +22,7 @@ D;JEQ	//If product is 0
 
 (LOOP)
 @R0
-D = M	//D = R1
+D = M	//D = R0
 @R2
 M = D + M	//Adds R0 to R2
 @R1
