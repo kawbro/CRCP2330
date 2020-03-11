@@ -15,7 +15,7 @@
 (RESTART)
 @SCREEN
 D = A
-@0
+@R0
 M = D	//PUT SCREEN START LOCATION IN RAM0
 
 
@@ -29,34 +29,34 @@ D;JGT	//Jump if key pressed
 D;JEQ	//Jump to white
 
 @KBDCHECK
-0;JMP
+R0;JMP
 
 (BLACK)
-@1
+@R1
 M = -1	//Fill screen with black
 @CHANGE
-0;JMP
+R0;JMP
 
 (WHITE)
-@1
+@R1
 M = 0	//Fill screen with white
 @CHANGE
-0;JMP
+R0;JMP
 
 (CHANGE)
-@1	//Check screen
+@R1	//Check screen
 D = M	//D = Black or White
 
-@0
+@R0
 A = M	
 M = D	//FILL pixel
 
-@0
+@R0
 D = M + 1	//Next pixel
 @KBD
 D = A - D	//KBD - SCREEN = A
 
-@0
+@R0
 M = M + 1	//Next pixel
 A = M
 
