@@ -10,12 +10,23 @@
 @R2
 M = 0	//Value of R2 is 0
 
+@R0
+D = M
+@END
+D;JEQ	//If product is 0
+
+@R1
+D = M
+@END
+D;JEQ	//If product is 0
+
 (LOOP)
 @R0
-D = M //Puts value of R0 into D
+D = M	//D = R1
 @R2
-M = D + M //Adds R0 to R2
+M = D + M	//Adds R0 to R2
 @R1
-M = M - 1 //Subtracts 1 from R1
+M = M - 1	//Subtracts 1 from R1
+D = M
 @LOOP
-M; JGT
+D;JGT
