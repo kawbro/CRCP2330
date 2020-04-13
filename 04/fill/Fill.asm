@@ -12,56 +12,52 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
-(RESTART)
-@SCREEN
+(LOOP)
+@8191 //(256 rows * 512 pixels per row) / 16 = number of 16 bit pixels minus one
 D = A
+@R0 //counter
+M = D
+
+@KBD //keyboard
+D = M //calls keyboard values from keyboard address
+@BLACKOUT
+D; JNE //if d = 1 aka key is pressed
+//@BLACKOUT
+@WHITEOUT
+D; JEQ //if d = 0 aka no key is pressed
+//@LOOP
+//0; JMP //loops to the top and checks again
+
+//black out
+(BLACKOUT)
+(DRAWA)
 @R0
-M = D	//PUT SCREEN START LOCATION IN RAM0
-
-
-(KBDCHECK)
-
-@KBD
+D = M //pulls counter
+@SCREEN //address 16384
+D = D + A //counter + 16384
+A = D //sets the addition to the address
+M = -1 //puts -1 into register (-1 is all 1s)
+@R0
+M = M - 1 //decrease counter by one
 D = M
-@BLACK
-D;JGT	//Jump if key pressed
-@WHITE
-D;JEQ	//Jump to white
+@DRAWA
+D; JGE //if not all the pixels are filled
+@LOOP
+0; JMP //loop to the top to always check keyboard
 
-@KBDCHECK
-R0;JMP
-
-(BLACK)
-@R1
-M = -1	//Fill screen with black
-@CHANGE
-R0;JMP
-
-(WHITE)
-@R1
-M = 0	//Fill screen with white
-@CHANGE
-R0;JMP
-
-(CHANGE)
-@R1	//Check screen
-D = M	//D = Black or White
-
+//white out
+(WHITEOUT)
+(DRAWB)
 @R0
-A = M	
-M = D	//FILL pixel
-
+D = M
+@SCREEN
+D = D + A 
+A = D
+M = 0
 @R0
-D = M + 1	//Next pixel
-@KBD
-D = A - D	//KBD - SCREEN = A
-
-@R0
-M = M + 1	//Next pixel
-A = M
-
-@CHANGE
-D;JGT	//Exit if screen is black
-
-@RESTART
-0;JMP
+M = M - 1
+D = M
+@DRAWB
+D; JGE
+@LOOP
+0; JMP
