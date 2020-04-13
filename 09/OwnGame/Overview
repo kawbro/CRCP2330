@@ -1,0 +1,20 @@
+Galiga esc game
+
+-PC starts at bottom center of the screen
+-Screen is black (pref)
+-Use arrow keys to move
+-Use space to fire
+-Shoot enemies
+	-Circles (basic)
+	-Squares (lvl 2, fast)
+	-Triangles (lvl 3, fastest)
+-Maybe two types of fire, reg & bomb
+
+4 classes:
+	-PC
+	-CircleEnemy
+	-SquareEnemy
+	-TriangleEnemy
+
+PC Class:
+	""
