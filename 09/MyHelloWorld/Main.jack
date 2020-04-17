@@ -1,0 +1,15 @@
+class Main
+{
+	function void main(int x, int y)
+	{
+		//do Output.printString("Hello World!");
+		//do Output.println();
+		//do Output.println();
+
+		let x = 8/2
+		let y = 4/2
+		do Output.moveCurosr(x, y); // column x row = 512 pixels x 256 pixels = 63 columns x 23 rows
+		do Output.println("Hello World!");
+		return;
+	}
+}
