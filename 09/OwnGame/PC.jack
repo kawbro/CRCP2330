@@ -1,0 +1,65 @@
+class PC //PC = Player Character
+{
+	field int x, y; //location for PC
+	field int size; //size of PC, should stay the same throughout
+	//field int bombs //if we get to diff. ammo types
+
+	/**Constructor for the PC*/
+	constructor PC new(int Lx, int Ly, int Lsize)
+	{
+		let x = Lx; //Location x
+		let y = Ly; //Location y
+		let size = Lsize; //same naming convention, but still static size
+		do draw();
+		return this;
+	}
+
+	/**Dispose of PC*/
+	method void dispose()
+	{
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	/**Draws the PC.*/
+	method void draw()
+	{
+		do Screen.setColor(true);
+		do Screen.drawRectangle(x, y, x + size, y + size);
+		return;
+	}
+
+	/**Moves the PC left.*/
+	method void moveLeft()
+	{
+		if (x > 1)
+		{
+         	do Screen.setColor(false);
+         	do Screen.drawRectangle((x + size) - 1, y, x + size, y + size);
+         	let x = x - 2;
+         	do Screen.setColor(true);
+         	do Screen.drawRectangle(x, y, x + 1, y + size);
+         }
+         return;
+	}
+	
+	/**Moves the PC right.*/
+	method void moveRight()
+	{
+		if((x + size) < 510)
+		{
+			do Screen.setColor(false);
+         	do Screen.drawRectangle((x + size) + 1, y, x + size, y + size);
+         	let x = x + 2;
+         	do Screen.setColor(true);
+         	do Screen.drawRectangle(x, y, x - 1, y + size);
+		}
+		return;
+	}
+
+	/**Lets the PC shoot*/
+	method void fireReg()
+	{
+		
+	}
+}
