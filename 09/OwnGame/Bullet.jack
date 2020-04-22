@@ -1,0 +1,5 @@
+class Bullet //small circle projectile that fires from the PC
+{
+	field int x, y;
+
+}

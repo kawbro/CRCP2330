@@ -1,0 +1,69 @@
+class OwnGame
+{
+	field PC pc; //PC for the game
+	field int move; //checks if PC is going left (1) or right (2)
+
+	/**Constructs a new OwnGame*/
+	constructor OwnGame new()
+	{
+		let pc = PC.new(11, 63, 20);
+		let move = 0;
+		return this;
+	}
+
+	/*Disposes of the game*/
+	method void dispose()
+	{
+		do pc.dispose();
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	method void movePC()
+	{
+		if(move = 1)
+		{
+			do pc.moveLeft();
+		}
+
+		if(move = 2)
+		{
+			do pc.moveRight();
+		}
+		return;
+	}
+
+	method void run()
+	{
+		var char key; //Key pressed
+		var boolean exit;
+		let exit = false;
+
+		while(~exit)
+		{
+			//waits for key to be pressed
+			while(key = 0)
+			{
+				let key = Keyboard.keyPressed();
+				do movePC();
+			}
+
+			if(key = 130) //Left arrow key
+			{
+				let move = 1;
+			}
+			if(key = 132) //Right arrow key
+			{
+				let move = 2;
+			}
+
+			//waits for key to be released
+			while(~(key = 0))
+			{
+				let key = Keyboard.keyPressed();
+				do movePC();
+			}
+		}
+		return;
+	}
+}
