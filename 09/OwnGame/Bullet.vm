@@ -9,9 +9,6 @@ pop this 1
 push argument 2
 pop this 2
 push pointer 0
-call Bullet.draw 1
-pop temp 0
-push pointer 0
 return
 function Bullet.dispose 0
 push argument 0
@@ -35,11 +32,25 @@ call Screen.drawCircle 3
 pop temp 0
 push constant 0
 return
+function Bullet.setX 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 0
+push this 0
+return
+function Bullet.setY 1
+push argument 0
+pop pointer 0
+push argument 1
+pop this 1
+push this 1
+return
 function Bullet.fire 0
 push argument 0
 pop pointer 0
 push this 1
-push constant 1
+push constant 5
 gt
 if-goto IF_TRUE0
 goto IF_FALSE0
@@ -68,17 +79,8 @@ push this 2
 call Screen.drawCircle 3
 pop temp 0
 label IF_FALSE0
-push this 1
-push this 2
-add
-push constant 1
-lt
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
 push pointer 0
 call Bullet.dispose 1
 pop temp 0
-label IF_FALSE1
 push constant 0
 return

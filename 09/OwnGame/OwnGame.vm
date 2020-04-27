@@ -1,5 +1,5 @@
 function OwnGame.new 0
-push constant 3
+push constant 5
 call Memory.alloc 1
 pop pointer 0
 push constant 246
@@ -56,9 +56,6 @@ eq
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push this 0
-call PC.fireReg 1
-pop temp 0
 push this 1
 call Bullet.fire 1
 pop temp 0
@@ -117,6 +114,20 @@ goto IF_FALSE2
 label IF_TRUE2
 push constant 3
 pop this 2
+push this 0
+call PC.getX 1
+pop this 3
+push this 1
+push this 3
+call Bullet.setX 2
+pop temp 0
+push this 0
+call PC.getY 1
+pop this 4
+push this 1
+push this 4
+call Bullet.setY 2
+pop temp 0
 label IF_FALSE2
 label WHILE_EXP2
 push local 0

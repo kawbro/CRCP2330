@@ -9,7 +9,7 @@ class Bullet //small circle projectile that fires from the PC
 		let x = Bx; //Bullet x
 		let y = By; //Bullet y
 		let r = Br; //Bullet radius
-		do draw();
+		//do draw();
 		return this;
 	}
 
@@ -28,10 +28,25 @@ class Bullet //small circle projectile that fires from the PC
 		return;
 	}
 
+	method int setX(int x2)
+	{
+		//var int x2;
+		let x = x2;
+		//let x = x2;
+		return x;
+	}
+
+	method int setY(int y2)
+	{
+		var int y2;
+		let y = y2;
+		return y;
+	}
+
 	/*Fires the bullet*/
 	method void fire()
 	{
-		if (y > 1) 
+		if (y > 5) 
 		{
          do Screen.setColor(false);
          do Screen.drawCircle(x, y - 1, r);
@@ -39,11 +54,12 @@ class Bullet //small circle projectile that fires from the PC
          do Screen.setColor(true);
          do Screen.drawCircle(x, y, r);
       	}
+      	do dispose();
 
-      	if((y + r) < 1)
-      	{
-      		do dispose();
-      	}
+      	// if((y + r) < 1)
+      	// {
+      	// 	do dispose();
+      	// }
       	return;
 	}
 }

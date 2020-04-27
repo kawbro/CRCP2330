@@ -30,6 +30,16 @@ class PC //PC = Player Character
 		return;
 	}
 
+	method int getX()
+	{
+		return x;
+	}
+
+	method int getY()
+	{
+		return y;
+	}
+
 	/**Moves the PC left.*/
 	method void moveLeft()
 	{
@@ -59,11 +69,11 @@ class PC //PC = Player Character
 	}
 
 	/**Lets the PC shoot*/
-	method void fireReg()
-	{
-		var Bullet pew;
-		let pew = Bullet.new((x - r), (y - r), r);
-		do pew.fire();
-		return;
-	}
+	// method void fireReg()
+	// {
+	// 	var Bullet pew;
+	// 	let pew = Bullet.new((x - r), (y - r), r);
+	// 	do pew.fire();
+	// 	return;
+	// }
 }

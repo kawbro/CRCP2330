@@ -40,6 +40,16 @@ call Screen.drawRectangle 4
 pop temp 0
 push constant 0
 return
+function PC.getX 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function PC.getY 0
+push argument 0
+pop pointer 0
+push this 1
+return
 function PC.moveLeft 0
 push argument 0
 pop pointer 0
@@ -134,22 +144,5 @@ add
 call Screen.drawRectangle 4
 pop temp 0
 label IF_FALSE0
-push constant 0
-return
-function PC.fireReg 1
-push argument 0
-pop pointer 0
-push this 0
-push this 2
-sub
-push this 1
-push this 2
-sub
-push this 2
-call Bullet.new 3
-pop local 0
-push local 0
-call Bullet.fire 1
-pop temp 0
 push constant 0
 return
