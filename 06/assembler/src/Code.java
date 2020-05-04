@@ -65,6 +65,19 @@ public class Code {
         dest.put("AMD", "111");
     }
 
-    
+    public String getDest(String mn)
+    {
+        return dest.get(mn);
+    }
 
+    public String getComp(String mn)
+    {
+        return comp.get(mn);
+    }
+
+
+    public String getJump(String mn)
+    {
+        return jump.get(mn);
+    }
 }
