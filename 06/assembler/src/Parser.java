@@ -1,134 +1,183 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
+
 
 public class Parser {
-        // current command
-        public String currentCommand = "";
-        // file being assembled
-        public String inputFile;
-        // current line number in the file
-        public int lineNumber = 0;
-        // current line in file
-        public String currentLine;
+    private  String strFile;  //for reading line by line from file
+    public  String strFileArr[];  //string array
+    public static String currComm;// actualy line in string array
+    public int lineCount; //line counter
+    public BufferedReader br;
+    public static commandType comType;  //A,C,L Command
+    public static int symbValue  = 16; //symbol value
 
-        // input file reader
-        private BufferedReader fileReader;
 
-        // command types
-        enum CommandType {
-            A_COMMAND,      // @xxx, where xxx is a decimal number or a symbol
-            C_COMMAND,      // dest=comp;jump
-            L_COMMAND       // (xxx), where xxx is a symbol
+    //c-tor opens the input file and gets ready to parse it
+    Parser(String exFileName)
+    {
+        lineCount = 0;//init's line count
+
+        FileInputStream fstream = null;
+        try {
+            fstream = new FileInputStream(exFileName);
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
         }
-
-        // open input file and get ready to parse it
-        public Parser(String file) throws FileNotFoundException
-        {
-            inputFile = file;
-            fileReader = new BufferedReader(new FileReader(file));
-            lineNumber = 0;
-        }
-
-        // reads next command from input and makes it the curent command
-        // returns true if command found
-        // returns false at end of file
-        public boolean advance() throws IOException
-        {
-            while (true)
-            {
-                currentLine = fileReader.readLine();
-                lineNumber++;
-                if (currentLine == null)
-                {
-                    return false;
-                }
-                currentCommand = currentLine.replaceAll("//.*$", "").trim();
-                if (currentCommand.equals(""))
-                {
-                    continue;
-                }
-
-                return true;
+        //converts to string
+        int content;
+        try {
+            while ((content = fstream.read()) != -1) {
+                strFile += (char) content; 	// convert to char and display it
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        // returns the type of the current command
-        // A_COMMAND for @xxx
-        // C_COMMAND for dest=comp;jump
-        // L_COMMAND for a label, (xxx)
-        public CommandType commandType()
+
+        // Get the object of DataInputStream
+        DataInputStream in = new DataInputStream(fstream);
+        br = new BufferedReader(new InputStreamReader(in));
+
+
+        strFile =  removeComments(strFile);
+        //copies string to string array
+        strFileArr = strFile.split("\n");
+        //trim
+        for(int i=0; i < strFileArr.length; i++){
+            strFileArr[i] =  strFileArr[i].trim();
+        }
+
+    }
+
+
+    public boolean hasMoreCommand() {
+        if(lineCount != strFileArr.length) return true;
+        return false;
+    }
+
+    public  void advance()
+    {
+        lineCount++;
+    }
+
+    public commandType commandType()
+    {
+        if(strFileArr[lineCount].startsWith("("))
         {
-            if (currentCommand.startsWith("@"))
-            {
-                return CommandType.A_COMMAND;
-            }
-
-            else if (currentCommand.startsWith("("))
-            {
-                return CommandType.L_COMMAND;
-            }
-
-            else
-            {
-                return CommandType.C_COMMAND;
-            }
+            return comType = commandType.L_COMMAND;
         }
-
-        // returns symbol or decimal xxx of the current command
-        // only applies to A_COMMAND or L_COMMAND
-        public String symbol()
+        else if(strFileArr[lineCount].startsWith("@"))
         {
-            return currentCommand.substring(1).replace(")", "");
+            return comType = commandType.A_COMMAND;
+        }
+        return commandType.C_COMMAND;
+    }
+
+
+    public String symbol()
+    {
+        String retLable = "";
+        if(strFileArr[lineCount].startsWith("@"))
+        {
+            retLable = strFileArr[lineCount];
+            retLable = retLable.replaceAll("@", "");
+        }
+        else
+        if(strFileArr[lineCount].startsWith("("))
+        {
+            retLable = strFileArr[lineCount];
+            retLable = retLable.replaceAll("\\((.*?)\\)", "$1");
+        }
+        return retLable;
+    }
+
+    //dest
+    public String dest() {
+        if(strFileArr[lineCount].contains("="))
+        {
+            String retDest = strFileArr[lineCount];
+
+            int endIndex = retDest.lastIndexOf("=");
+            retDest =  retDest.substring(0,endIndex);
+            return retDest;
+        }
+        return null;
+    }
+    //comp
+    public String comp() {
+        String retComp = strFileArr[lineCount];
+        if(strFileArr[lineCount].contains("="))
+        {
+            int endIndex = retComp.lastIndexOf("=");
+            retComp =  retComp.substring(endIndex+1,retComp.length());
+        }
+        else if(strFileArr[lineCount].contains(";"))
+        {
+            //retComp =  retComp.substring(0,1) ;
+            int endIndex = retComp.lastIndexOf(";");
+            retComp =  retComp.substring(0,endIndex);
+        }
+        return retComp;
+
+    }
+
+
+    public String jump() {
+        if(strFileArr[lineCount].contains(";"))
+        {
+            String retJump = strFileArr[lineCount];
+            int endIndex = retJump.lastIndexOf(";");
+            return retJump.substring(endIndex+1,retJump.length());
+        }
+        return null;
+
+    }
+
+
+    public String removeComments(String file) {
+        String tmpFile =  file.replaceAll( "//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/|(?m)^[ \t]*\r?\n|null|\t", "" );
+        tmpFile = tmpFile.replaceAll("(?m)^[ \t]*\r?\n", "");
+        return tmpFile;
+    }
+
+    public enum commandType
+    {
+        A_COMMAND,L_COMMAND,C_COMMAND
+    }
+
+    public static String dexToBin(int value) {
+        String binVal = Integer.toBinaryString(value);
+        return binVal;
+
+    }
+
+    public boolean isNum(String num)
+    {
+        NumberFormat formatter = NumberFormat.getInstance();
+        ParsePosition pos = new ParsePosition(0);
+        formatter.parse(num, pos);
+        return  num.length() == pos.getIndex();
+
+    }
+
+    public String addZero(String num)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (int toPrepend=16-num.length(); toPrepend>0; toPrepend--) {
+            sb.append('0');
         }
 
-        // returns dest field of current command (8 possibilities)
-        // only applies to C_COMMAND
-        public String dest()
-        {
-            String dest = "";
-            if (currentCommand.contains("="))
-            {
-                String[] array = currentCommand.split("=");
-                dest = array[0];
-            }
-            return dest;
-        }
+        sb.append(num);
+        String result = sb.toString();
+        return result;
+    }
 
-        // returns the comp field of the current command (28 possibilities)
-        // only applies to C_COMMAND
-        public String comp()
-        {
-            String comp;
-            if (currentCommand.contains("="))
-            {
-                String[] array = currentCommand.split("=");
-                String[] array1 = array[1].split(";");
-                comp = array1[0];
-            } else
-            {
-                String[] array = currentCommand.split(";");
-                comp = array[0];
-            }
-            return comp;
-        }
-
-        // returns the jump field of the current command (8 possibilities)
-        // only applies to C_COMMAND
-        public String jump()
-        {
-            String jump = "";
-            if (currentCommand.contains(";"))
-            {
-                String[] array = currentCommand.split(";");
-                //jump = array[1];
-            }
-            return jump;
-        }
-
-        // close input file
-        public void close() throws IOException
-        {
-            fileReader.close();
-            return;
-        }
 
 }
