@@ -24,18 +24,25 @@ public class Parser {
         lineCount = 0;//init's line count
 
         FileInputStream fstream = null;
-        try {
+        try
+        {
             fstream = new FileInputStream(exFileName);
-        } catch (FileNotFoundException e1) {
+        }
+        catch (FileNotFoundException e1)
+        {
             e1.printStackTrace();
         }
         //converts to string
         int content;
-        try {
-            while ((content = fstream.read()) != -1) {
+        try
+        {
+            while ((content = fstream.read()) != -1)
+            {
                 strFile += (char) content; 	// convert to char and display it
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
 
@@ -49,14 +56,16 @@ public class Parser {
         //copies string to string array
         strFileArr = strFile.split("\n");
         //trim
-        for(int i=0; i < strFileArr.length; i++){
+        for(int i=0; i < strFileArr.length; i++)
+        {
             strFileArr[i] =  strFileArr[i].trim();
         }
 
     }
 
 
-    public boolean hasMoreCommand() {
+    public boolean hasMoreCommand()
+    {
         if(lineCount != strFileArr.length) return true;
         return false;
     }
@@ -88,8 +97,7 @@ public class Parser {
             retLable = strFileArr[lineCount];
             retLable = retLable.replaceAll("@", "");
         }
-        else
-        if(strFileArr[lineCount].startsWith("("))
+        else if(strFileArr[lineCount].startsWith("("))
         {
             retLable = strFileArr[lineCount];
             retLable = retLable.replaceAll("\\((.*?)\\)", "$1");
@@ -98,7 +106,8 @@ public class Parser {
     }
 
     //dest
-    public String dest() {
+    public String dest()
+    {
         if(strFileArr[lineCount].contains("="))
         {
             String retDest = strFileArr[lineCount];
@@ -110,7 +119,8 @@ public class Parser {
         return null;
     }
     //comp
-    public String comp() {
+    public String comp()
+    {
         String retComp = strFileArr[lineCount];
         if(strFileArr[lineCount].contains("="))
         {
@@ -128,7 +138,8 @@ public class Parser {
     }
 
 
-    public String jump() {
+    public String jump()
+    {
         if(strFileArr[lineCount].contains(";"))
         {
             String retJump = strFileArr[lineCount];
@@ -136,11 +147,11 @@ public class Parser {
             return retJump.substring(endIndex+1,retJump.length());
         }
         return null;
-
     }
 
 
-    public String removeComments(String file) {
+    public String removeComments(String file)
+    {
         String tmpFile =  file.replaceAll( "//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/|(?m)^[ \t]*\r?\n|null|\t", "" );
         tmpFile = tmpFile.replaceAll("(?m)^[ \t]*\r?\n", "");
         return tmpFile;
@@ -151,10 +162,10 @@ public class Parser {
         A_COMMAND,L_COMMAND,C_COMMAND
     }
 
-    public static String dexToBin(int value) {
+    public static String dexToBin(int value)
+    {
         String binVal = Integer.toBinaryString(value);
         return binVal;
-
     }
 
     public boolean isNum(String num)
@@ -163,21 +174,17 @@ public class Parser {
         ParsePosition pos = new ParsePosition(0);
         formatter.parse(num, pos);
         return  num.length() == pos.getIndex();
-
     }
 
     public String addZero(String num)
     {
         StringBuilder sb = new StringBuilder();
-
-        for (int toPrepend=16-num.length(); toPrepend>0; toPrepend--) {
+        for (int toPrepend=16-num.length(); toPrepend>0; toPrepend--)
+        {
             sb.append('0');
         }
-
         sb.append(num);
         String result = sb.toString();
         return result;
     }
-
-
 }

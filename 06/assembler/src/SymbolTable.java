@@ -1,53 +1,54 @@
-import java.util.*;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class SymbolTable
-{
-    private HashMap<String, Integer> symbolTable;
 
-    // create an empty symbol table
+public class SymbolTable {
+
+    private static Map<String, String> symbols;
+
     public SymbolTable()
     {
-        symbolTable = new HashMap<String, Integer>();
+        symbols = new TreeMap<String, String>();
+        symbols.put("SP", "0");
+        symbols.put("LCL", "1");
+        symbols.put("ARG", "2");
+        symbols.put("THIS", "3");
+        symbols.put("THAT", "4");
+        symbols.put("R0", "0");
+        symbols.put("R1", "1");
+        symbols.put("R2", "2");
+        symbols.put("R3", "3");
+        symbols.put("R4", "4");
+        symbols.put("R5", "5");
+        symbols.put("R6", "6");
+        symbols.put("R7", "7");
+        symbols.put("R8", "8");
+        symbols.put("R9", "9");
+        symbols.put("R10", "10");
+        symbols.put("R11", "11");
+        symbols.put("R12", "12");
+        symbols.put("R13", "13");
+        symbols.put("R14", "14");
+        symbols.put("R15", "15");
+        symbols.put("SCREEN", "16384");
+        symbols.put("KBD", "24576");
     }
 
-    // add an entry to the symbol table
-    public void addEntry(String symbol, int address)
+    // add's entry in to table
+    public void addEntry(String key, String value)
     {
-        symbolTable.put(symbol, address);
-        return;
+        symbols.put(key, value);
     }
 
-    // check if the symbol table contains the given symbol
-    public boolean contains(String symbol)
+    //checks if symbol exists
+    public boolean containKey(String key)
     {
-        return symbolTable.containsKey(symbol);
+        return symbols.containsKey(key);
     }
 
-    // return the address for a given symbol in the table
-    public int getAddress(String symbol)
+    public String getValue(String val)
     {
-        return symbolTable.get(symbol);
-    }
-
-    // initialize the symbol table with predefined symbols
-    public void initialize()
-    {
-        // virtual registers
-        for (int i = 0; i < 16; i++)
-        {
-            this.addEntry("R" + i, i);
-            // i/o pointers
-            this.addEntry("KBD", 24576);
-            this.addEntry("SCREEN", 16384);
-
-            // other symbols
-            this.addEntry("SP", 0);
-            this.addEntry("LCL", 1);
-            this.addEntry("ARG", 2);
-            this.addEntry("THIS", 3);
-            this.addEntry("THAT", 4);
-
-            return;
-        }
+        return symbols.get(val);
     }
 }
+
