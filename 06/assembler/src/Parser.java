@@ -38,10 +38,14 @@ public class Parser {
                 currentLine = fileReader.readLine();
                 lineNumber++;
                 if (currentLine == null)
+                {
                     return false;
+                }
                 currentCommand = currentLine.replaceAll("//.*$", "").trim();
                 if (currentCommand.equals(""))
+                {
                     continue;
+                }
 
                 return true;
             }
@@ -56,10 +60,14 @@ public class Parser {
             if (currentCommand.startsWith("@"))
             {
                 return CommandType.A_COMMAND;
-            } else if (currentCommand.startsWith("("))
+            }
+
+            else if (currentCommand.startsWith("("))
             {
                 return CommandType.L_COMMAND;
-            } else
+            }
+
+            else
             {
                 return CommandType.C_COMMAND;
             }
@@ -111,7 +119,7 @@ public class Parser {
             if (currentCommand.contains(";"))
             {
                 String[] array = currentCommand.split(";");
-                jump = array[1];
+                //jump = array[1];
             }
             return jump;
         }
